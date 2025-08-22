@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        .home-container {
+            background-color: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 400px;
+            text-align: center;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        a {
+            display: block;
+            margin: 10px 0;
+            text-decoration: none;
+            color: white;
+            background-color: #4CAF50;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        a.logout {
+            background-color: #f44336;
+        }
+        a:hover {
+            background-color: #45a049;
+        }
+        a.logout:hover {
+            background-color: #e53935;
+        }
+    </style>
+</head>
+<body>
+
+<div class="home-container">
+    <h2>Welcome, <span th:text="${patientName}"></span>!</h2>
+    <a th:href="@{/viewall}">View Appointments</a>
+    <a th:href="@{/new-appointment}">Book Appointment</a>
+    <a th:href="@{/view-my-reports}">View Reports</a>
+    <a th:href="@{/logout}" class="logout">Logout</a>
+</div>
+
+<div class="home-container">
+    <div th:if="${successMessage}">
+        <p style="color:green;" th:text="${successMessage}"></p>
+    </div>
+</div>
+
+</body>
+</html>

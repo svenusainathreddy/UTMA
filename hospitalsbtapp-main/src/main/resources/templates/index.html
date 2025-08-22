@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+            margin-top: 100px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .button-container {
+            margin-top: 30px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Hospital Management System</h1>
+    <p>Access your account or create a new one to manage appointments and records.</p>
+
+    <div class="button-container">
+        <a href="/login" class="btn">Login</a>
+        <a href="/register" class="btn">Register</a>
+    </div>
+</body>
+</html>

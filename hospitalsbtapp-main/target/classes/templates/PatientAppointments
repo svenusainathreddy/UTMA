@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Appointments</title>
+</head>
+<body>
+    <h2>My Appointments</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Doctor</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="appointment : ${appointments}">
+                <td th:text="${appointment.id}"></td>
+                <td th:text="${appointment.date}"></td>
+                <td th:text="${appointment.time}"></td>
+                <td th:text="${appointment.doctor.name}"></td>
+                <td th:text="${appointment.department.name}"></td>
+                <td>
+                    <a th:href="@{/patient/appointments/reschedule/{id}(id=${appointment.id})}">Reschedule</a> |
+                    <form th:action="@{/patient/appointments/cancel/{id}(id=${appointment.id})}" method="post">
+                        <button type="submit">Cancel</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

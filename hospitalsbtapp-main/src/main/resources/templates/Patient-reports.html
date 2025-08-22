@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Reports</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 0;
+        }
+        .home-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 1000px;
+            text-align: center;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        a.download-btn {
+            color: white;
+            background-color: #4CAF50;
+            padding: 6px 12px;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        a.download-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="home-container">
+    <h2>My Reports</h2>
+
+    <table th:if="${not #lists.isEmpty(reports)}">
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Doctor Name</th>
+                <th>Report Name</th>
+                <th>File</th>
+                <th>Download</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="report : ${reports}">
+                <td th:text="${report.patientName}">Patient</td>
+                <td th:text="${report.doctorName}">Doctor</td>
+                <td th:text="${report.reportName}">Report</td>
+                <td th:text="${report.fileName}">File</td>
+                <td>
+                    <a th:href="@{/download-report/{id}(id=${report.id})}" class="download-btn">Download</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(reports)}">
+        <p>No reports found.</p>
+    </div>
+</div>
+
+</body>
+</html>

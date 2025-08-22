@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+
+        /* Hide staff-related fields by default */
+        .staff-fields {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>User Registration</h2>
+
+    <div th:if="${successMessage != null and !#strings.isEmpty(successMessage)}" class="message success">
+        <p th:text="${successMessage}"></p>
+    </div>
+
+    <form th:object="${user}" th:action="@{/register}" method="post">
+        <input type="text" name="username" placeholder="Username" required />
+
+        <input type="text" name="firstname" placeholder="First Name" required />
+
+        <input type="text" name="lastname" placeholder="Last Name" required />
+
+        <input type="email" name="email" placeholder="Email" required />
+
+        <input type="password" name="password" placeholder="Password"
+               pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$"
+               title="Password must be at least 8 characters long and include uppercase, lowercase, number, and special character"
+               required />
+
+        <!-- Hidden Input to Pass Staff Status -->
+        <input type="hidden" name="staffMember" value="false" />
+
+        <!-- Checkbox to indicate if the user is staff -->
+        <label>
+            <input type="checkbox" id="staffCheckbox" /> Is Staff
+        </label>
+
+        <!-- Staff fields, initially hidden -->
+        <div class="staff-fields" id="staffFields">
+            <select name="department">
+                <option value="" disabled selected>Select Department</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Ophthalmology">Ophthalmology</option>
+            </select>
+
+            <select name="jobTitle">
+                <option value="" disabled selected>Select Job Title</option>
+                <option value="Physician">Physician</option>
+                <option value="Surgeon">Surgeon</option>
+                <option value="Junior Doctor">Junior Doctor</option>
+            </select>
+
+            <input type="text" name="dateOfJoining" placeholder="Date of Joining (YYYY-MM-DD)" />
+
+            <input type="text" name="manager" placeholder="Manager" />
+        </div>
+
+        <button type="submit">Register</button>
+
+        <div th:if="${errorMessage}" class="message error">
+            <p th:text="${errorMessage}"></p>
+        </div>
+    </form>
+</div>
+
+<script>
+    const staffCheckbox = document.getElementById("staffCheckbox");
+    const staffFields = document.getElementById("staffFields");
+    const hiddenInput = document.querySelector("input[name='staffMember']");
+    const form = document.querySelector("form");
+
+    // Function to toggle staff-related fields based on checkbox state
+    staffCheckbox.addEventListener("change", function() {
+        if (staffCheckbox.checked) {
+            staffFields.style.display = "block";  // Show staff fields
+            hiddenInput.value = "true";  // Set isStaff to true
+        } else {
+            staffFields.style.display = "none";  // Hide staff fields
+            hiddenInput.value = "false";  // Set isStaff to false
+        }
+
+        // Debugging: Log the value of the hidden input
+        console.log('isStaff value after checkbox change: ' + hiddenInput.value);
+    });
+
+    // Ensure the correct value of isStaff is set before form submission
+    form.addEventListener("submit", function(event) {
+        // Debugging: Log before form submission
+        console.log('Form submitted. Current value of isStaff: ' + hiddenInput.value);
+
+        if (staffCheckbox.checked) {
+            hiddenInput.value = "true";
+        } else {
+            hiddenInput.value = "false";
+        }
+    });
+
+</script>
+
+</body>
+</html>

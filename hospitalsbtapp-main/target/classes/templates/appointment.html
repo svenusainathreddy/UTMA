@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Appointment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>Book New Appointment</h2>
+
+    <form th:action="@{/new-appointment}" th:object="${appointment}" method="post">
+
+        <select th:field="*{department}" required>
+<!--            <option value="" disabled selected>Select Department</option>-->
+            <option value="Cardiology">Cardiology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="Orthopedics">Orthopedics</option>
+            <option value="Ophthalmology">Ophthalmology</option>
+        </select>
+
+        <select th:field="*{doctor}" required>
+    <option value="" disabled selected>Select Doctor</option>
+    <option th:each="doc : ${doctors}"
+            th:value="${doc.username}"
+            th:text="${doc.firstname}">
+    </option>
+</select>
+
+        <input type="date" th:field="*{appointmentDate}" required />
+        <select th:field="*{appointmentTime}" required>
+            <option value="" disabled selected>Select Time</option>
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+        </select>
+
+        <input type="text" th:field="*{patientName}" placeholder="Patient Name" required />
+        <input type="email" th:field="*{patientEmail}" placeholder="Patient Email" required />
+
+        <button type="submit">Submit Appointment</button>
+    </form>
+
+    <div th:if="${errorMessage}">
+        <p style="color:red;" th:text="${errorMessage}"></p>
+    </div>
+</div>
+
+</body>
+</html>
